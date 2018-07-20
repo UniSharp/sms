@@ -17,8 +17,7 @@
   "require": {
     "php": ">=5.5.0",
     "illuminate/support": ">=5.0.0",
-    "illuminate/database": ">=5.0.0",
-    "illuminate/cache": ">=5.0.0"
+    "illuminate/log": ">=5.0.0"
   },
   "autoload": {
     "psr-4": {
