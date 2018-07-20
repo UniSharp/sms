@@ -1,0 +1,38 @@
+{
+  "name": "unisharp/sms",
+  "description": "Aptg SMS client for Laravel",
+  "type": "library",
+  "keywords": [
+    "sms",
+    "aptg",
+    "laravel"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "UniSharp Ltd.",
+      "email": "service@unisharp.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0",
+    "illuminate/support": ">=5.0.0",
+    "illuminate/database": ">=5.0.0",
+    "illuminate/cache": ">=5.0.0"
+  },
+  "autoload": {
+    "classmap": [
+      "database"
+    ],
+    "psr-4": {
+      "UniSharp\\Sms\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "aliases": {
+        "Sms": "UniSharp\\Sms\\SmsFacade"
+      }
+    }
+  }
+}
