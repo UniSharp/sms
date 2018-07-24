@@ -21,13 +21,13 @@ class Sms
             try {
                 $response = $client->send([$phone_number], $message);
 
-                if (!$response->isSuccessful()) {
+                $result = $response->isSuccessful();
+
+                if (!$result) {
                     if (is_object($response)) {
                         \Log::error('[APTG SMS] Failed to send SMS. Error code: ' . $response->code() . '. Reason: ' . $response->reason());
                     }
                 }
-
-                $result = true;
             } catch  (\Exception $e) {
                 \Log::error('[APTG SMS] Failed to send SMS. Exception: ' . $e);
             }
