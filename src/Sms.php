@@ -6,7 +6,7 @@ use UniSharp\Sms\AptgSmsClient;
 
 class Sms
 {
-    public function send($phone_number, $content)
+    public function send($phone_number, $message)
     {
         $result = false;
 
@@ -19,7 +19,7 @@ class Sms
 
         if (env('SMS_IS_DRY_RUN') === false) {
             try {
-                $response = $client->send([$phone_number], $content);
+                $response = $client->send([$phone_number], $message);
 
                 if (!$response->isSuccessful()) {
                     if (is_object($response)) {
@@ -32,7 +32,7 @@ class Sms
                 \Log::error('[APTG SMS] Failed to send SMS. Exception: ' . $e);
             }
         } else {
-            \Log::info("[APTG SMS] SMS test succeeded. Phone number: {$phone_number}. Content: {$content}");
+            \Log::info("[APTG SMS] SMS test succeeded. Phone number: {$phone_number}. Message: {$message}");
             $result = true;
         }
 
