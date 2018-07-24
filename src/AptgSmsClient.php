@@ -2,6 +2,8 @@
 
 namespace UniSharp\Sms;
 
+use UniSharp\Sms\AptgResponse;
+
 class AptgSmsClient
 {
     const XMLPACKETSTR = '<soap-env:Envelope xmlns:soap-env=\'http://schemas.xmlsoap.org/soap/envelope/\'>
@@ -70,7 +72,6 @@ class AptgSmsClient
 
         if (!$fp) {
             throw new Exception("Could not open connection");
-            // echo 'Could not open connection.';
         } else {
             $out = $this->formatHttpReq();
             // echo "\nRequest------\n" . $out . "\nRequest End-----\n";
@@ -103,29 +104,6 @@ class AptgSmsClient
         $this->content = $sms_content;
         // $this->toString();
         $out = $this->sendReq();
-        $respObj = $this->getRespObj($out);
-        return $this->checkRespStatus($respObj);
-    }
-
-    private function getRespObj($resp)
-    {
-        // echo "Response-------\n" . $resp . "Response End--------\n";
-        $xmlStartIdx = strrpos($resp, "<env:Envelope");
-        $xmlEndIdx = strripos($resp, "Envelope>");
-        $respXmlBody = str_ireplace(['env:'], '', substr($resp, $xmlStartIdx, $xmlEndIdx - $xmlStartIdx + 9));
-        $xmlObj = simplexml_load_string($respXmlBody);
-        return $xmlObj;
-    }
-
-    private function checkRespStatus($respObj)
-    {
-        // print_r($respObj);
-        // print_r($respObj->Body->Response);
-        // // echo "\nResponse Code:" . $respObj->Body->Response->Code . "\n";
-        if ((string) $respObj->Body->Response->Code === "0") {
-            return true;
-        } else {
-            return false;
-        }
+        return new AptgResponse($out);
     }
 }
