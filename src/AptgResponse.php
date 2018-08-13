@@ -24,6 +24,11 @@ class AptgResponse
         return json_encode($this->xml);
     }
 
+    public function getXml()
+    {
+        return $this->xml;
+    }
+
     public function code()
     {
         return (string) $this->xml->Body->Response->Code;
