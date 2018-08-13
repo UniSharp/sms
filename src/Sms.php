@@ -6,6 +6,8 @@ use UniSharp\Sms\AptgSmsClient;
 
 class Sms
 {
+    protected $response;
+
     public function send($phone_number, $message)
     {
         $result = false;
@@ -21,6 +23,8 @@ class Sms
             try {
                 $response = $client->send([$phone_number], $message);
 
+                $this->response = $response;
+
                 $result = $response->isSuccessful();
 
                 if (!$result) {
@@ -28,7 +32,7 @@ class Sms
                         \Log::error('[APTG SMS] Failed to send SMS. Error code: ' . $response->code() . '. Reason: ' . $response->reason());
                     }
                 }
-            } catch  (\Exception $e) {
+            } catch (\Exception $e) {
                 \Log::error('[APTG SMS] Failed to send SMS. Exception: ' . $e);
             }
         } else {
@@ -37,5 +41,10 @@ class Sms
         }
 
         return $result;
+    }
+
+    public function getResponse()
+    {
+        return $this->response;
     }
 }
