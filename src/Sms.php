@@ -37,6 +37,7 @@ class Sms
             }
         } else {
             \Log::info("[APTG SMS] SMS test succeeded. Phone number: {$phone_number}. Message: {$message}");
+            $this->response = new AptgResponse('<env:Envelope></Envelope>');
             $result = true;
         }
 
