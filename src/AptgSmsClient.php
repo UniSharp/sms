@@ -14,7 +14,7 @@ class AptgSmsClient
 <UID>%s</UID>
 <UPASS>%s</UPASS>
 <Subject>亞太電信簡訊發送平台</Subject>
-<AutoSplit>Y</AutoSplit>
+<AutoSplit>%s</AutoSplit>
 <!--<Retry>Y</Retry>
 <StopDateTime>201006021230</StopDateTime>--> <Message>%s</Message> <MDNList>
 %s
@@ -29,6 +29,7 @@ class AptgSmsClient
     private $UPASS;
     private $content;
     private $receivers;
+    private $autoSplit = false;
 
     public function __construct($MDN, $UID, $UPASS)
     {
@@ -54,7 +55,15 @@ class AptgSmsClient
         foreach ($this->receivers as $rec) {
             $xmlrec .= self::MSISDN_TAG_PRE . $rec . self::MSISDN_TAG_POST;
         }
-        return sprintf(self::XMLPACKETSTR, $this->MDN, $this->UID, $this->UPASS, $this->content, $xmlrec);
+        return sprintf(
+            self::XMLPACKETSTR,
+            $this->MDN,
+            $this->UID,
+            $this->UPASS,
+            $this->autoSplit ? 'Y' : 'L',
+            $this->content,
+            $xmlrec
+        );
     }
 
     private function sendReq()
@@ -105,5 +114,12 @@ class AptgSmsClient
         // $this->toString();
         $out = $this->sendReq();
         return new AptgResponse($out);
+    }
+
+    public function setAutoSplit(bool $autoSplit = true): self
+    {
+        $this->autoSplit = $autoSplit;
+
+        return $this;
     }
 }

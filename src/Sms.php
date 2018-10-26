@@ -8,6 +8,13 @@ class Sms
 {
     protected $response;
 
+    private $client;
+
+    public function __construct()
+    {
+        $this->client = new AptgSmsClient(env('APTG_MDN'), env('APTG_UID'), env('APTG_UPASS'));
+    }
+
     public function send($phone_number, $message)
     {
         $result = false;
@@ -17,11 +24,9 @@ class Sms
             return $result;
         }
 
-        $client = new AptgSmsClient(env('APTG_MDN'), env('APTG_UID'), env('APTG_UPASS'));
-
         if (env('SMS_IS_DRY_RUN') === false) {
             try {
-                $response = $client->send([$phone_number], $message);
+                $response = $this->client->send([$phone_number], $message);
 
                 $this->response = $response;
 
@@ -47,5 +52,12 @@ class Sms
     public function getResponse()
     {
         return $this->response;
+    }
+
+    public function splitMessage(bool $autoSplit = true): self
+    {
+        $this->client->setAutoSplit($autoSplit);
+
+        return $this;
     }
 }
