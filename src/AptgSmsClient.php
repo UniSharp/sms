@@ -9,17 +9,21 @@ class AptgSmsClient
     const XMLPACKETSTR = '<soap-env:Envelope xmlns:soap-env=\'http://schemas.xmlsoap.org/soap/envelope/\'>
 <soap-env:Header/>
 <soap-env:Body>
-<Request>
-<MDN>%s</MDN>
-<UID>%s</UID>
-<UPASS>%s</UPASS>
-<Subject>亞太電信簡訊發送平台</Subject>
-<AutoSplit>%s</AutoSplit>
-<!--<Retry>Y</Retry>
-<StopDateTime>201006021230</StopDateTime>--> <Message>%s</Message> <MDNList>
-%s
-</MDNList> </Request>
-</soap-env:Body> </soap-env:Envelope>';
+  <Request>
+    <MDN>%s</MDN>
+    <UID>%s</UID>
+    <UPASS>%s</UPASS>
+    <Subject>亞太電信簡訊發送平台</Subject>
+    <AutoSplit>%s</AutoSplit>
+    <!--
+    <Retry>Y</Retry>
+    <StopDateTime>201006021230</StopDateTime>
+    -->
+    <Message>%s</Message>
+    <MDNList>%s</MDNList>
+  </Request>
+</soap-env:Body>
+</soap-env:Envelope>';
     const MSISDN_TAG_PRE = '<MSISDN>';
     const MSISDN_TAG_POST = '</MSISDN>';
     const DOMAIN = 'xsms.aptg.com.tw';
